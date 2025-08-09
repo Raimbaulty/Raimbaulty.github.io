@@ -21,8 +21,7 @@ tags:
 
 ```
 mkdir gpt-load && cd $_
-wget wget https://github.com/tbphp/gpt-load/releases/latest/download/gpt-load
-chmod +x gpt-load
+bash <(curl -sSL https://raw.githubusercontent.com/Raimbaulty/freebsd/main/gpt-load.sh)
 ```
 [点击](https://admin.alwaysdata.com/site/add/) 添加站点
 

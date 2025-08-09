@@ -1,4 +1,13 @@
-# Cloudflare 免费 CDN
+---
+layout: mypost
+title: Cloudflare 免费 CDN
+date: 2025-07-16
+published: true
+categories: 网站搭建
+tags: 
+ - cloudflare
+ - cdn
+---
 
 开始之前，需要准备2个域名并托管到 Cloudflare
 
