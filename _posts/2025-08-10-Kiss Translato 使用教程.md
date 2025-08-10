@@ -12,7 +12,7 @@ tags:
 
 从开源仓库跳转安装避免李鬼：[GitHub仓库地址](https://github.com/fishjar/kiss-translator?tab=readme-ov-file#%E5%AE%89%E8%A3%85)
 
-
+安装后点击拓展图标 → SETTING → English，切换为 中文 
 
 ## 添加接口
 
@@ -22,9 +22,7 @@ tags:
 
 - **URL**
 
-  `https://api.deeplx.org/translate`
-
-- **KEY**
+  `https://api.deeplx.org/你的API_KEY/translate`
 
   前往 [Connect](https://connect.linux.do/) 获取 DeepLX Api Key
 
