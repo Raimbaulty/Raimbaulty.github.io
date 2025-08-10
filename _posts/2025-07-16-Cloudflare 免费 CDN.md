@@ -9,35 +9,73 @@ tags:
  - cdn
 ---
 
-开始之前，需要准备2个域名并托管到 Cloudflare
+## 开始之前
 
-- 域名一，回退域名，可以使用价格低廉的6位数字xyz域名，下面以 `123456.xyz`为例
-- 域名二，使用域名，建议使用正规的com、net、org域名，下面以 `zhenggui.com` 为例
+准备两个域名并托管到 Cloudflare
 
-1. 回退域名DNS
+- **回退域**，建议使用价格低廉的6位数字xyz域名，下面以 `123456.xyz`为例
+- **工作域**，建议使用接受度高的com、net、org域名，下面以 `example.com` 为例
 
-打开`https://dash.cloudflare.com/?to=/:account/123456.xyz/dns/records`，注意替换回退域名
+  
 
-添加A记录，名称 `origin`，内容填写服务器IP地址，并确保打开小黄云
+## 配置回退域DNS
 
-添加CNAME记录，名称 `cdn`，内容填写优选域名，[点击这里](https://www.wetest.vip/page/cloudflare/cname.html) 获取优选域名，注意关闭小黄云
+**注意**：替换 `123456.xyz` 为你的回退域
 
-2. 回退域名自定义域
+打开 `https://dash.cloudflare.com/?to=/:account/123456.xyz/dns/records` 添加两条记录
 
-打开：`https://dash.cloudflare.com/?to=/:account/123456.xyz/ssl-tls/custom-hostnames`，注意替换回退域名
+### 添加A记录
 
-如果没有支付方式会要求绑定支付方式，选择Free计划即可，然后点击 **添加回退源**，填写 `origin.1234567.xyz`
+打开小黄云
 
-接着点击 **添加自定义主机名**，填写 `zhenggui.com`，点击 ▼，查看提示
+- 名称： `origin`
+- 内容：服务器IP地址
 
-3. 正规域名DNS
+### 添加CNAME记录
 
-替换正规域名后在新标签页打开：`https://dash.cloudflare.com/?to=/:account/zhenggui.com/dns/records`
+关闭小黄云
 
-按照上面的提示添加 TXT记录
+- 名称： `cdn`
 
-然后再添加一条CNAME记录，名称 `@`，指向 `origin.123456.xyz`，注意关闭小黄云
+- 内容：优选域名，[点击获取](https://www.wetest.vip/page/cloudflare/cname.html) 获取
 
-接着回到第二步打开的页面，点击刷新等待验证生效后，将上一步添加的CNAME记录值由 `origin.123456.xyz` 改为 `cdn.123456.xyz`
+  
+
+## 配置自定义域名
+
+**注意：**替换 `123456.xyz` 为你的回退域
+
+打开`https://dash.cloudflare.com/?to=/:account/123456.xyz/ssl-tls/custom-hostnames`
+
+如果没有支付方式会要求绑定支付方式，选择Free计划，然后点击 **添加回退源**，填写 `origin.1234567.xyz`
+
+接着点击 **添加自定义主机名**，填写 `example.com`，点击 ▼，按照提示添加下一步的TXT记录
+
+
+
+## 配置工作域DNS
+
+**注意：**替换`example.com` 为你的工作域，`123456.xyz` 为你的回退域
+
+在新标签页打开 `https://dash.cloudflare.com/?to=/:account/example.com/dns/records` 添加条记录
+
+### 添加 TXT记录
+
+按照上一步的提示添加
+
+### 添加CNAME记录
+
+关闭小黄云
+
+- 名称： `@`
+- 内容： `origin.123456.xyz`
+
+### 修改CNAME记录
+
+回到第二步打开的页面，点击刷新等待验证生效后，将工作域添加的CNAME记录值由 `origin.123456.xyz` 改为 `cdn.123456.xyz`
+
+
+
+## 验证优选结果
 
 [点击这里](https://www.itdog.cn/) 输入域名后，点击单次查询查看连接情况
