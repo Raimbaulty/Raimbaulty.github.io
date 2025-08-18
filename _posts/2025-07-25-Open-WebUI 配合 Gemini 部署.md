@@ -271,10 +271,15 @@ volumes:
 
   `https://raw.githubusercontent.com/Raimbaulty/open-webui/main/functions/search`
 
+
+- Gemini 深度思考
+
+  `https://raw.githubusercontent.com/Raimbaulty/open-webui/main/functions/deepthink`
+
 - Gemini 关闭思考
 
   `https://raw.githubusercontent.com/Raimbaulty/open-webui/main/functions/think`
-  
+
   
 
 ### 公告
