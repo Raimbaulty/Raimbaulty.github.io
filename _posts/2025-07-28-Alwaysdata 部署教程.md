@@ -20,7 +20,7 @@ tags:
 第三步：SSH 登入
 
 ```bash
-ssh 用户名@ssh-用户名.alwaysdata.net
+ssh 用户名@ssh-账户名.alwaysdata.net
 ```
 
 
@@ -40,7 +40,7 @@ bash <(curl -sSL https://raw.githubusercontent.com/Raimbaulty/freebsd/main/gpt-l
 - **Commande（命令）**：`./gpt-load`
 
 - **Type（类型）**: Programme utilisateur（用户程序）
-- **Répertoire racine（根目录）**: `/home/username/gpt-load`
+- **Répertoire racine（根目录）**: `gpt-load`
 
 环境变量填写
 
@@ -125,7 +125,7 @@ filebrowser users add <用户名> <密码> --perm.admin
 
   `filebrowser`
 
-访问站点地址，点击 Settings → User Management，取消默认admin用户并可修改用户的语言选项
+访问站点地址，点击 Settings → User Management，取消默认admin用户的权限并修改使用用户的语言选项
 
 
 
@@ -167,7 +167,7 @@ sed -i '/group :jekyll_plugins do/a\
 ' Gemfile
 ```
 
-修改 ` _config.yml`
+修改 `_config.yml`
 
 ```bash
 sed -i '/^plugins:/a\
