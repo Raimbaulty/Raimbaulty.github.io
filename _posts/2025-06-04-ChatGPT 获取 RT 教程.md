@@ -111,7 +111,7 @@ tags:
 2. **安装依赖**
 
     ```bash
-    pip install requests DrissionPage click pyinstaller
+    pip install requests DrissionPage click
     ```
 
 3. **运行主程序**
@@ -130,12 +130,14 @@ import os
 import random
 import string
 import time
+import secrets
 from urllib.parse import urlparse
 
 import click
 import requests
 from DrissionPage import ChromiumOptions
 from DrissionPage._pages.web_page import WebPage
+
 
 def to_time(t: int = None):
     return time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(t))
@@ -148,12 +150,12 @@ def to_timestamp(t: str = None):
 class TokenManager:
     def __init__(
             self,
-            proxy='http://127.0.0.1:10808',
-            chrome_path=None,
             refresh_token=None,
             device_token=None,
             refresh_interval=60,
-            storage_path='./token.json'
+            storage_path='./token.json',
+            proxy='http://127.0.0.1:10809',
+            chrome_path=None,
     ):
         self.refresh_token = refresh_token
         self.device_token = device_token
@@ -161,16 +163,18 @@ class TokenManager:
         self.access_token = None
         self.storage_path = storage_path
         self.co = ChromiumOptions()
+
         if proxy:
             self.co.set_proxy(proxy)
             self.proxy = {'all': proxy}
         else:
             self.proxy = None
-        self.load_token()
-        self.save_token()
 
         if chrome_path:
             self.co.set_browser_path(chrome_path)
+
+        self.load_token()
+        self.save_token()
 
     def get_refresh_token(self):
         self.ensure_refresh_token()
@@ -219,19 +223,23 @@ class TokenManager:
         preauth_cookie = self.get_preauth_cookie()
         if not preauth_cookie:
             raise Exception('抓取preauth_cookie失败')
-        url = f'https://auth0.openai.com/authorize' \
-              f'?client_id=pdlLIX2Y72MIl2rhLhTE9VV9bN905kBh' \
-              f'&audience=https%3A%2F%2Fapi.openai.com%2Fv1' \
-              f'&redirect_uri=com.openai.chat%3A%2F%2Fauth0.openai.com%2Fios%2Fcom.openai.chat%2Fcallback' \
-              f'&scope=openid%20email%20profile%20offline_access%20model.request%20model.read%20organization.read%20offline' \
-              f'&response_type=code' \
-              f'&code_challenge={code_challenge}' \
-              f'&code_challenge_method=S256' \
-              f'&preauth_cookie={preauth_cookie}'
 
-        url += '&prompt=login'
-        # print(url)
-        # code = input('code: ')
+        state = secrets.token_urlsafe(32)
+
+        url = (
+            f"https://auth.openai.com/api/accounts/authorize"
+            f"?scope=openid%20email%20profile%20offline_access%20model.request%20model.read%20organization.read%20organization.write"
+            f"&prompt=login"
+            f"&redirect_uri=com.openai.chat%3A%2F%2Fauth0.openai.com%2Fios%2Fcom.openai.chat%2Fcallback"
+            f"&code_challenge={code_challenge}"
+            f"&code_challenge_method=S256"
+            f"&client_id=app_WXrF1LSkiTtfYqiL6XtjygvX"
+            f"&state={state}"
+            f"&response_type=code"
+            f"&preauth_cookie={preauth_cookie}"
+            f"&audience=https%3A%2F%2Fapi.openai.com%2Fv1"
+        )
+
         page = WebPage(chromium_options=self.co)
         page.get(url)
         page.listen.start('com.openai.chat://auth0.openai.com/ios/com.openai.chat/callback')
@@ -240,8 +248,8 @@ class TokenManager:
         code = query1.get('code')
         if not code:
             raise Exception('preauth_cookie已过期')
-        # state = query1['state']
         page.close()
+
         resp_json = requests.post('https://auth0.openai.com/oauth/token', json={
             'redirect_uri': 'com.openai.chat://auth0.openai.com/ios/com.openai.chat/callback',
             'grant_type': 'authorization_code',
@@ -249,8 +257,7 @@ class TokenManager:
             'code': code,
             'code_verifier': code_verifier
         }, proxies=self.proxy).json()
-        # json.dump(resp_json, open('./app.json', 'w'))
-        # print(json.dumps(resp_json, indent=2))
+
         self.refresh_token = resp_json.get('refresh_token')
         self.save_token()
 
@@ -274,8 +281,6 @@ class TokenManager:
         return base64.urlsafe_b64encode(m.digest()).decode().rstrip('=')
 
     def get_preauth_cookie(self):
-        # fakeopen已挂
-        # return requests.get('https://ai.fakeopen.com/auth/preauth').json().get('preauth_cookie')
         if self.device_token:
             rsp = requests.post(
                 'https://ios.chat.openai.com/backend-api/preauth_devicecheck',
@@ -293,19 +298,9 @@ class TokenManager:
 
     def generate_access_token(self):
         self.ensure_refresh_token()
-        resp = requests.post('https://token.oaifree.com/api/auth/refresh', data={
-            'refresh_token': self.refresh_token
-        })
-        if resp.status_code == 200:
-            access_token = resp.json().get('access_token')
-            self.access_token = access_token
-            self.save_token()
-            return access_token
-        else:
-            return self.generate_access_token_old()
+        return self.generate_access_token_old()
 
     def generate_share_token(self, unique_name='share_token'):
-        # share_token的有效期还取决于access_token
         resp = requests.post('https://chat.oaifree.com/token/register', data={
             'unique_name': unique_name,
             'access_token': self.get_access_token(),
@@ -332,9 +327,17 @@ class TokenManager:
             proxies=self.proxy)
         if resp.status_code == 200:
             access_token = resp.json().get('access_token')
+            refresh_token = resp.json().get("refresh_token")
             self.access_token = access_token
+            self.refresh_token = refresh_token
             self.save_token()
             return access_token
+        else:
+            self.refresh_token = None
+            self.save_token()
+            raise Exception(
+                f"获取access_token失败: {resp.status_code} {resp.text}"
+            )
 
     def load_token(self):
         if os.path.exists(self.storage_path):
@@ -372,6 +375,7 @@ def cli(proxy, chrome, refresh_token, access_token, sess_key, share_token):
         obj = TokenManager(chrome_path=chrome)
     else:
         obj = TokenManager()
+
     if refresh_token:
         print({"refresh_token": obj.get_refresh_token()})
     if access_token:
@@ -379,7 +383,7 @@ def cli(proxy, chrome, refresh_token, access_token, sess_key, share_token):
         payload = _access_token.split('.')[1]
         payload = payload + '=' * - (len(payload) % - 4)
         exp = json.loads(base64.b64decode(payload).decode()).get('exp')
-        print({"access_token": obj.get_access_token(), 'expired': to_time(exp)})
+        print({"access_token": _access_token, "expired": to_time(exp)})
     if sess_key:
         print(obj.get_sess_key())
     if share_token:
@@ -401,7 +405,7 @@ python main.py -ra -c "/path/to/chrome.exe"
 
 ## 参考链接
 
-- [自己搞 refresh token](https://linux.do/t/topic/42253)
+- https://github.com/qy527145/openai_token
 
 - [【12/09验证可行】始皇停止服务后自己获取refresh token——如何绕过ssl pinning证书校验](https://linux.do/t/topic/226241) 
 
