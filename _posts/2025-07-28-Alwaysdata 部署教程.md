@@ -23,9 +23,21 @@ tags:
 ssh 用户名@ssh-账户名.alwaysdata.net
 ```
 
+## 工具服务
 
+### Note
 
-## GPT-Load
+```bash
+git clone --depth=1 https://github.com/pereorga/minimalist-web-notepad.git note
+```
+
+### 创建站点
+
+- **Type（类型）**: PHP
+
+- **Répertoire racine（根目录）**: `note`
+
+### GPT-Load
 
 ### 下载文件
 
@@ -33,7 +45,7 @@ ssh 用户名@ssh-账户名.alwaysdata.net
 mkdir gpt-load && cd $_
 bash <(curl -sSL https://raw.githubusercontent.com/Raimbaulty/freebsd/main/gpt-load.sh)
 ```
-### 添加站点
+### 创建站点
 
 [点击添加](https://admin.alwaysdata.com/site/add/) 
 
@@ -51,9 +63,9 @@ AUTH_KEY=sk-1234567 # 注意修改
 
 提交后按照感叹号的提示添加A记录和AAAA记录，注意关闭小黄云，会自动生成证书
 
+## 文件管理
 
-
-## TinyFileManager
+### TinyFileManager
 
 ### 下载文件
 
@@ -80,7 +92,7 @@ $auth_users = array(
 
 
 
-## Filebrowser
+### Filebrowser
 
 ### 隧道服务
 

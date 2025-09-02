@@ -243,7 +243,7 @@ volumes:
    sudo systemctl reload caddy
    ```
 
-   
+   xxxxxxxxxx7 1ENABLE_OAUTH_SIGNUP=true2OAUTH_PROVIDER_NAME=LINUX DO3OPENID_PROVIDER_URL=https://auth.xxxx.xx/oidc/.well-known/openid-configuration4OAUTH_CLIENT_ID=xxxxxxxxxx5OAUTH_CLIENT_SECRET=xxxxxxxxxx6OAUTH_SCOPES=openid email profile7OPENID_REDIRECT_URI=https://chat.xxxx.xx/oauth/oidc/callbackini
 
 服务启动需要一会儿，等待30s左右再访问站点地址，初次使用需要创建管理员账户然后使用管理员账户登录
 

@@ -12,14 +12,14 @@ tags:
 
 请自行准备
 
-- 一个国外虚拟手机号
-- 一个国外虚拟银行卡
+- 国外虚拟手机号，要求正常接码
+- 国外虚拟银行卡，要求余额＞1刀
 
 ## 注册账户
 
 [点击注册账户](https://account.alibabacloud.com/register/intl_register.htm)，按提示验证手机号
 
-[点击添加银行卡](https://billing-cost.console.alibabacloud.com/fortune/payment/add)，有扣款验证，注意保证卡内余额＞1刀
+[点击添加银行卡](https://billing-cost.console.alibabacloud.com/fortune/payment/add)，有扣款验证，确保余额充足
 
 ## 添加站点
 
@@ -29,25 +29,25 @@ tags:
 
 在跳转页面点击 **支付**，支付完成后返回原页面点击 **我已完成**
 
-接着按照提示完成站点验证即可
+接着按照提示完成站点验证即可，并且可以
 
-[点击续费套餐](https://esa.console.aliyun.com/billManage/packageManagement)，点击 续费 → 设置续费规则 进行续费
+## 续费套餐
 
-## 添加DNS
+[点击续费套餐](https://esa.console.aliyun.com/billManage/packageManagement)，点击 续费 → 设置续费规则进行续费，每次最长续费1年，可多次操作
+
+## 加速站点
 
 [访问站点列表](https://esa.console.aliyun.com/siteManage/list)，进入需要加速的站点，点击左侧 DNS → 记录 → 添加记录，支持添加 A/AAAA 和 CNAME 记录
 
 默认开启了代理加速，注意只有 NS 接入才能关闭代理加速
 
-全球(不包含中国内地) 的代理加速效果差强人意，强烈建议解锁内地
-
-## 添加证书
-
 在 DNS 记录的 **HTTPS 证书** 一列点击 **配置** 跳转到 SSL 配置点击 **确定**，等待几分钟即可
 
 ## 解锁内地
 
-参加活动可免备案解锁内地加速，活动支持的社交平台
+全球(不包含中国内地) 的代理加速效果差强人意，强烈建议解锁内地，但注意开通后还需使用备案域名
+
+目前参加活动可免备案解锁内地加速，活动支持的社交平台
 
 - Linux.do
 - V2EX.com

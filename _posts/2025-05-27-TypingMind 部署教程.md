@@ -9,13 +9,23 @@ tags:
  - linux
 ---
 
-## TypingMind
+## 介绍
 
 **官方仓库：** https://github.com/TypingMind/typingmind
 
 **官方文档：** https://docs.typingmind.com
 
-需要注意，这是一款付费软件，可以付费支持，也可充电获取 Premium免激活版：[我的电铺](https://afdian.com/a/ireno)
+
+
+## 部署
+
+### 抱脸部署
+
+1. [点击这里](https://huggingface.co/join) 注册 Huggingface 账户
+2. [点击这里](https://github.com/TypingMind/typingmind/archive/refs/heads/main.zip) 下载源码并解压进入 `src` 目录
+3. [点击这里](https://huggingface.co/new-space?sdk=static) 创建空间，**space name** 填写 `TypingMind` 后下滑页面点击 **Create Space**
+4. 点击 **Files** → **+ Contribute** → **Upload files**，`Ctrl +A` 全选 `src` 目录下的所有内容后拖动到 **Drag files/folders here or click to browse from your computer.** 注意这里必须拖动上传，点击上传无法上传目录下的文件夹
+5. 点击 **Commit changes to `main`** 并保留页面稍待，因为文件较多，如果网络不好可能需要10~20分钟，耐心等待即可，部署成功后页面会自动跳转到 **Files**
 
 ### Vercel 部署
 
@@ -24,17 +34,13 @@ tags:
 3. [点击这里](https://vercel.com/new) 然后点击 **Continue with GitHub** 绑定 GitHub账户
 4. 点击 `typingmind` 后的 **Import**，展开 **Building and Output Settings**，修改 **Output Directory** 为 `src` 后 **Deploy**
 
-### Huggingface 部署
 
-1. [点击这里](https://huggingface.co/join) 注册 Huggingface 账户
-2. [点击这里](https://github.com/TypingMind/typingmind/archive/refs/heads/main.zip) 下载源码并解压进入 `src` 目录
-3. [点击这里](https://huggingface.co/new-space?sdk=static) 创建空间，**space name** 填写 `TypingMind` 后下滑页面点击 **Create Space**
-4. 点击 **Files** → **+ Contribute** → **Upload files**，`Ctrl +A` 全选 `src` 目录下的所有内容后拖动到 **Drag files/folders here or click to browse from your computer.** 注意这里必须拖动上传，点击上传无法上传目录下的文件夹
-5. 点击 **Commit changes to `main`** 并保留页面稍待，因为文件较多，如果网络不好可能需要10~20分钟，耐心等待即可，部署成功后页面会自动跳转到 **Files**
 
-## MCP
+## 插件
 
-### 安装步骤
+### MCP 插件
+
+#### 安装步骤
 
 - [点击这里](https://huggingface.co/new-space?sdk=docker) 创建空间，**space name** 填写 `TM-MCP` 后下滑页面点击 **Create Space**
 - 下滑找到并点击 **create the Dockerfile file**，粘贴以下内容后点击 **Commit changes to `main`** 
@@ -74,7 +80,7 @@ CMD npx @typingmind/mcp $TOKEN
 
 - 点击 **Settings** → **New secret** 添加一个环境变量 **TOKEN**，值设为＞10位的字符串
 
-### 使用方法
+#### 使用方法
 
 - 点击 **设置** - **Model Context Protocol** - **Setup MCP Connector**
 
@@ -125,9 +131,9 @@ CMD npx @typingmind/mcp $TOKEN
   
   
 
-## Plugin Server
+### 文件插件
 
-### 安装步骤
+#### 安装步骤
 
 - [点击这里](https://huggingface.co/new-space?sdk=docker) 创建空间，**space name** 填写 `TM-PS` 后下滑点击 **Create Space**
 - 下滑找到并点击 **create the Dockerfile file**，粘贴以下内容后点击 **Commit changes to `main`** 
@@ -154,7 +160,7 @@ CMD npx @typingmind/mcp $TOKEN
 
 ​	注意添加环境变量 **RENDER_EXTERNAL_URL** 值为 `https://用户名-tm-ps.hf.space`
 
-### 使用方法
+#### 使用方法
 
 - 点击 **插件**，点击插件旁的 ➕ 安装插件，比如 **Word Generator**、**Web Page Reader**
 
@@ -162,11 +168,8 @@ CMD npx @typingmind/mcp $TOKEN
 
 - 点击 **聊天**，输入框上方会多出一个工具选项，可以管理插件的启用状态
 
-## Custon
+  
 
-### 添加插件
-
-进入 `https://xxx.typingcloud.com/admin/plugins` 点击 **Browse Plugins** 添加需要的插件
+另外，进入 `https://xxx.typingcloud.com/admin/plugins` 点击 **Browse Plugins** 添加更多需要的插件
 
 点击 **Shared OAuth Connections** → **Add New Connection** 添加 Oauth2 认证
-
