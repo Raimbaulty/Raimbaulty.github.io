@@ -16,14 +16,10 @@ Push Markdown 要求文章页面开头包含 **YAML Frontmatter**，用于定义
 
 ```yaml
 ---
-layout: mypost
 title:  快速发布文章到 Wordpress
 abstract: 解放双手，修改即发布
 url: pushmarkdown
-
-date: 2025-05-10
-
-
+date: 2025-05-10 18:25:30
 category: 
 - 效率工具
 tags: 

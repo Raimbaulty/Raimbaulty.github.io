@@ -14,7 +14,7 @@ tags:
 * Image: cloudflare/cloudflared:latest
 * Usage: 0.1/64M, Cost: 0.01刀/天
 * Port: 80
-* Command: cloudflared tunnel --no-autoupdate run --token eyJ**********
+* Command: `cloudflared tunnel --no-autoupdate run --token eyJ**********`
 
 ## New-API
 
@@ -22,15 +22,18 @@ tags:
 * Image: calciumion/new-api:latest
 * Usage: 0.1/256M, Cost: 0.03刀/天
 * Port: 3000
-* Environment：
-    	SQL_DSN=root:123456@tcp(localhost:3306)/oneapi
-
+* Environment
+	```    
+  SQL_DSN=root:123456@tcp(localhost:3306)/oneapi
+	```
 ## Open-WebUI
 * Name: open-webui
 * Image: ghcr.io/open-webui/open-webui:main
 * Usage: 0.2/1G, Cost: 0.12刀/天
 * Port: 8080
-* Environment:
+* Environment
+  
+    ```    
     DEFAULT_LOCALE=zh
     WEBUI_URL=http://example.com
     WEBUI_SECRET_KEY=G5kW8Hq9rVzRY2faBsmP3TDXowxCjuLA
@@ -68,5 +71,6 @@ tags:
     ENABLE_TAGS_GENERATION=False
     ENABLE_COMMUNITY_SHARING=False
     ENABLE_EVALUATION_ARENA_MODELS=False
-    ENABLE_AUTOCOMPLETE_GENERATION=False
-* Storage: /app/backend/data, 5G
+    ENABLE_AUTOCOMPLETE_GENERATION=False    
+    ```
+* Storage: `/app/backend/data`, 5G
