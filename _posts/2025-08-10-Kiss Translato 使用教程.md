@@ -26,7 +26,7 @@ tags:
 
   `https://api.deeplx.org/你的API_KEY/translate`
 
-  前往 [Connect](https://connect.linux.do/) 获取 DeepLX Api Key
+  [点击前往获取](https://connect.linux.do/) DeepLX Api Key
 
 其余选项保持默认即可
 
@@ -159,6 +159,77 @@ tags:
 
 
 
+### 接入 Reka
+
+点击拓展图标进入设置，依次点击 **接口设置** → **Custom**
+
+- **URL**
+
+  `https://api.reka.ai/v1/chat`
+
+- **KEY**
+
+  [点击前往获取](https://platform.reka.ai/apikeys)
+
+- **Request Hook**
+
+  ```tex
+  (text, from, to, url, key, title_prompt="", summary_prompt="", terms_prompt="") => [url, {
+    "method": "POST",
+    "headers": {
+      "Content-type": "application/json",
+      "X-Api-Key": key
+    },
+    "body": JSON.stringify({
+    	"stream": false,
+    	"model": "reka-flash",
+    	"messages": [
+    		{
+    			"role":"user",
+    			"content": `
+  你是一位专业的翻译助手，擅长根据上下文理解原文的用语风格（情感、语气），并且准确地在 {{to}} 中再现这种风格。
+  
+  ## 翻译要求
+  
+  1. 语言风格：根据**原文内容和上下文**，灵活采用不同风格。如文档采用严谨风格、论坛采用口语化风格、嘲讽采用阴阳怪气风格等。
+  2. 用词选择：不要生硬地逐词直译，而是采用 {{to}} 的地道用词（如成语、网络用语）。
+  3. 句法选择：不要追求逐句翻译，应该调整语句大小和语序，使之更符合 {{to}} 表达习惯。
+  4. 标点用法：根据表达习惯的不同，准确地使用（包括添加、修改）标点符号。
+  5. 格式保留：只翻译原文中的文本内容，无法翻译的内容需要保持**原样**，对于翻译内容也不要额外添加格式。
+  6. **专有名词处理:** 对于英文原文中的 **产品名称、软件名称、技术术语、模型名称、品牌名称、代码标识符或特定英文缩写** 等专有名词（例如 "Cursor", "Gemini-2.5-pro-exp", "VS Code", "API", "GPT-4"），**必须保留其原始英文形式，不进行翻译**。请将这些英文术语自然地嵌入到流畅的中文译文中。
+     * **重要示例:** 如果原文是 "Add Gemini-2.5-pro-exp to Cursor"，一个好的翻译应该是像 “快把 Gemini-2.5-pro-exp 加到 Cursor 里试试！” 或 “推荐将 Gemini-2.5-pro-exp 集成到 Cursor 中”，**绝不能** 翻译 "Cursor" 或 "Gemini-2.5-pro-exp"。
+  
+  ## 可选网页上下文信息 (如有，请参考以提升翻译质量):
+  
+  ${title_prompt ? "网页标题: " + title_prompt : ""}
+  ${summary_prompt ? "网页摘要: " + summary_prompt : ""}
+  ${terms_prompt ? "专业术语: " + terms_prompt : ""}
+  
+  请将下方的原文从 ${from} 翻译到 ${to}。翻译每段文本时，请直接输出翻译内容，不要有任何额外文本。
+  
+  原文: ${text}
+  
+  译文:
+  `
+    		}
+    	]
+    })
+  }]
+  ```
+
+- **Response Hook**
+
+  ```text
+  (res, text, from, to) => [
+    res.responses?.[0]?.message?.content ?? "",
+    false
+  ]
+  ```
+
+其余选项保持默认即可
+
+
+
 ### 接入 Gemini
 
 **注意：Free 层级不适用，请使用更高层级**
@@ -175,7 +246,7 @@ tags:
 
 - **KEY**
 
-  `AIzaSy********************`
+  [点击前往获取](https://aistudio.google.com/apikey)
 
 - **MODEL**
 

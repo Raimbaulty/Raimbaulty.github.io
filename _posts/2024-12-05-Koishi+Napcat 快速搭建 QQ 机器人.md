@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: mypost
 title: Koishi+Napcat 快速搭建 QQ 机器人
 date: 2024-12-05
 published: true
